@@ -7,6 +7,7 @@ create table tweets (
     id uuid default gen_random_uuid() primary key,
     user_id uuid not null,
     hashtag varchar references hashtag(title),
+    title varchar,
     content text,
     image_url varchar default 'no images',
     created_at timestamp with time zone default now(),
@@ -19,7 +20,7 @@ create table comments (
     user_id uuid not null,
     tweet_id uuid references tweets(id),
     context text,
-    like_count int,
+    like_count int default 0,
     created_at timestamp with time zone default now(),
     updated_at timestamp with time zone default now()
 );
