@@ -27,21 +27,46 @@ func NewSubscribeService(st storage.SubscribeStorage, logger *slog.Logger) Subsc
 }
 
 func (s *subscribeService) Follow(in *pb.FollowReq) (*pb.FollowRes, error) {
-	return &pb.FollowRes{}, nil
+	res, err := s.storage.Follow(in)
+	if err != nil {
+		s.logger.Error("failed to get follow from database")
+		return nil, err
+	}
+	return res, nil
 }
 
 func (s *subscribeService) Unfollow(in *pb.FollowReq) (*pb.DFollowRes, error) {
-	return &pb.DFollowRes{}, nil
+	res, err := s.storage.Unfollow(in)
+	if err != nil {
+		s.logger.Error("failed to get follow from database")
+		return nil, err
+	}
+	return res, nil
 }
 
 func (s *subscribeService) GetUserFollowers(in *pb.UserId) (*pb.Count, error) {
-	return &pb.Count{}, nil
+	res, err := s.storage.GetUserFollowers(in)
+	if err != nil {
+		s.logger.Error("failed to get follow from database")
+		return nil, err
+	}
+	return res, nil
 }
 
 func (s *subscribeService) GetUserFollows(in *pb.UserId) (*pb.Count, error) {
-	return &pb.Count{}, nil
+	res, err := s.storage.GetUserFollows(in)
+	if err != nil {
+		s.logger.Error("failed to get follow from database")
+		return nil, err
+	}
+	return res, nil
 }
 
 func (s *subscribeService) MostPopularUser(in *pb.Void) (*pb.User, error) {
-	return &pb.User{}, nil
+	res, err := s.storage.MostPopularUser(in)
+	if err != nil {
+		s.logger.Error("failed to get follow from database")
+		return nil, err
+	}
+	return res, nil
 }

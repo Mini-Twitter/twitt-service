@@ -30,33 +30,73 @@ func NewCommentsService(st storage.CommentsStorage, logger *slog.Logger) Comment
 }
 
 func (s *commentsService) PostComment(in *pb.Comment) (*pb.CommentRes, error) {
-	return &pb.CommentRes{}, nil
+	res, err := s.storage.PostComment(in)
+	if err != nil {
+		s.logger.Error("failed to post comment", err)
+		return nil, err
+	}
+	return res, nil
 }
 
 func (s *commentsService) UpdateComment(in *pb.UpdateAComment) (*pb.CommentRes, error) {
-	return &pb.CommentRes{}, nil
+	res, err := s.storage.UpdateComment(in)
+	if err != nil {
+		s.logger.Error("failed to update comment", err)
+		return nil, err
+	}
+	return res, nil
 }
 
 func (s *commentsService) DeleteComment(in *pb.CommentId) (*pb.Message, error) {
-	return &pb.Message{}, nil
+	res, err := s.storage.DeleteComment(in)
+	if err != nil {
+		s.logger.Error("failed to delete comment", err)
+		return nil, err
+	}
+	return res, nil
 }
 
 func (s *commentsService) GetComment(in *pb.CommentId) (*pb.Comment, error) {
-	return &pb.Comment{}, nil
+	res, err := s.storage.GetComment(in)
+	if err != nil {
+		s.logger.Error("failed to get comment", err)
+		return nil, err
+	}
+	return res, nil
 }
 
 func (s *commentsService) GetAllComments(in *pb.CommentFilter) (*pb.Comments, error) {
-	return &pb.Comments{}, nil
+	res, err := s.storage.GetAllComments(in)
+	if err != nil {
+		s.logger.Error("failed to get comments", err)
+		return nil, err
+	}
+	return res, nil
 }
 
 func (s *commentsService) GetUserComments(in *pb.UserId) (*pb.Comments, error) {
-	return &pb.Comments{}, nil
+	res, err := s.storage.GetUserComments(in)
+	if err != nil {
+		s.logger.Error("failed to get comments", err)
+		return nil, err
+	}
+	return res, nil
 }
 
 func (s *commentsService) AddLikeToComment(in *pb.UserId) (*pb.Message, error) {
-	return &pb.Message{}, nil
+	res, err := s.storage.AddLikeToComment(in)
+	if err != nil {
+		s.logger.Error("failed to add like to comment", err)
+		return nil, err
+	}
+	return res, nil
 }
 
 func (s *commentsService) DeleteLikeComment(in *pb.UserId) (*pb.Message, error) {
-	return &pb.Message{}, nil
+	res, err := s.storage.DeleteLikeComment(in)
+	if err != nil {
+		s.logger.Error("failed to delete like comment", err)
+		return nil, err
+	}
+	return res, nil
 }

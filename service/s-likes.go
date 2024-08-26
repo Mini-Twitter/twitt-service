@@ -27,21 +27,46 @@ func NewLikeService(st storage.LikesStorage, logger *slog.Logger) LikeService {
 }
 
 func (s *likeService) AddLike(in *pb.LikeReq) (*pb.LikeRes, error) {
-	return &pb.LikeRes{}, nil
+	res, err := s.storage.AddLike(in)
+	if err != nil {
+		s.logger.Error("failed to create liked tweet", err)
+		return nil, err
+	}
+	return res, nil
 }
 
 func (s *likeService) DeleteLIke(in *pb.LikeReq) (*pb.DLikeRes, error) {
-	return &pb.DLikeRes{}, nil
+	res, err := s.storage.DeleteLIke(in)
+	if err != nil {
+		s.logger.Error("failed to delete liked tweet", err)
+		return nil, err
+	}
+	return res, nil
 }
 
 func (s *likeService) GetUserLikes(in *pb.UserId) (*pb.TweetTitles, error) {
-	return &pb.TweetTitles{}, nil
+	res, err := s.storage.GetUserLikes(in)
+	if err != nil {
+		s.logger.Error("failed to get liked tweets", err)
+		return nil, err
+	}
+	return res, nil
 }
 
 func (s *likeService) GetCountTweetLikes(in *pb.TweetId) (*pb.Count, error) {
-	return &pb.Count{}, nil
+	res, err := s.storage.GetCountTweetLikes(in)
+	if err != nil {
+		s.logger.Error("failed to get liked tweets", err)
+		return nil, err
+	}
+	return res, nil
 }
 
 func (s *likeService) MostLikedTweets(in *pb.Void) (*pb.Tweet, error) {
-	return &pb.Tweet{}, nil
+	res, err := s.storage.MostLikedTweets(in)
+	if err != nil {
+		s.logger.Error("failed to get liked tweets", err)
+		return nil, err
+	}
+	return res, nil
 }

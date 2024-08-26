@@ -30,33 +30,73 @@ func NewTweetService(st storage.TweetStorage, logger *slog.Logger) TweetService 
 }
 
 func (s *tweetService) PostTweet(in *pb.Tweet) (*pb.TweetResponse, error) {
-	return nil, nil
+	res, err := s.storage.PostTweet(in)
+	if err != nil {
+		s.logger.Error("failed to post tweet", err)
+		return nil, err
+	}
+	return res, nil
 }
 
 func (s *tweetService) UpdateTweet(in *pb.UpdateATweet) (*pb.TweetResponse, error) {
-	return nil, nil
+	res, err := s.storage.UpdateTweet(in)
+	if err != nil {
+		s.logger.Error("failed to update tweet", err)
+		return nil, err
+	}
+	return res, nil
 }
 
 func (s *tweetService) AddImageToTweet(in *pb.Url) (*pb.Message, error) {
-	return nil, nil
+	res, err := s.storage.AddImageToTweet(in)
+	if err != nil {
+		s.logger.Error("failed to add image to tweet", err)
+		return nil, err
+	}
+	return res, nil
 }
 
 func (s *tweetService) UserTweets(in *pb.UserId) (*pb.Tweets, error) {
-	return nil, nil
+	res, err := s.storage.UserTweets(in)
+	if err != nil {
+		s.logger.Error("failed to user tweets", err)
+		return nil, err
+	}
+	return res, nil
 }
 
 func (s *tweetService) GetTweet(in *pb.TweetId) (*pb.TweetResponse, error) {
-	return nil, nil
+	res, err := s.storage.GetTweet(in)
+	if err != nil {
+		s.logger.Error("failed to get tweet", err)
+		return nil, err
+	}
+	return res, nil
 }
 
 func (s *tweetService) GetAllTweets(in *pb.TweetFilter) (*pb.Tweets, error) {
-	return nil, nil
+	res, err := s.storage.GetAllTweets(in)
+	if err != nil {
+		s.logger.Error("failed to get tweets", err)
+		return nil, err
+	}
+	return res, nil
 }
 
 func (s *tweetService) RecommendTweets(in *pb.UserId) (*pb.Tweets, error) {
-	return nil, nil
+	res, err := s.storage.RecommendTweets(in)
+	if err != nil {
+		s.logger.Error("failed to recommend tweets", err)
+		return nil, err
+	}
+	return res, nil
 }
 
 func (s *tweetService) GetNewTweets(in *pb.UserId) (*pb.Tweets, error) {
-	return nil, nil
+	res, err := s.storage.GetNewTweets(in)
+	if err != nil {
+		s.logger.Error("failed to get tweets", err)
+		return nil, err
+	}
+	return res, nil
 }
