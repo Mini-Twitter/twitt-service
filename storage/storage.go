@@ -38,6 +38,6 @@ type CommentsStorage interface {
 	GetComment(in *pb.CommentId) (*pb.Comment, error)
 	GetAllComments(in *pb.CommentFilter) (*pb.Comments, error)
 	GetUserComments(in *pb.UserId) (*pb.Comments, error)
-	AddLikeToComment(in *pb.UserId) (*pb.Message, error)
-	DeleteLikeComment(in *pb.UserId) (*pb.Message, error)
+	AddLikeToComment(in *pb.CommentLikeReq) (*pb.Message, error)
+	DeleteLikeComment(in *pb.CommentLikeReq) (*pb.Message, error)
 }
