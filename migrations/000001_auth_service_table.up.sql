@@ -1,12 +1,7 @@
-create table hashtag (
-    id uuid default gen_random_uuid() unique,
-    title varchar primary key
-);
-
 create table tweets (
     id uuid default gen_random_uuid() primary key,
     user_id uuid not null,
-    hashtag varchar references hashtag(title),
+    hashtag varchar default 'dodi',
     title varchar,
     content text,
     image_url varchar default 'no images',

@@ -4,6 +4,7 @@ import (
 	"context"
 	"database/sql"
 	"time"
+	"twitt-service/storage"
 
 	"github.com/jmoiron/sqlx"
 	pb "twitt-service/genproto/tweet"
@@ -13,7 +14,7 @@ type TweetRepo struct {
 	db *sqlx.DB
 }
 
-func NewTweetRepo(db *sqlx.DB) *TweetRepo {
+func NewTweetRepo(db *sqlx.DB) storage.TweetStorage {
 	return &TweetRepo{
 		db: db,
 	}

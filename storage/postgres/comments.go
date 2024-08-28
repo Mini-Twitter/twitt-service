@@ -25,8 +25,7 @@ func (c *CommentRepo) PostComment(in *pb.Comment) (*pb.CommentRes, error) {
 		return nil, err
 	}
 
-	// Return the full CommentRes instead of just the ID
-	return &pb.CommentRes{Id: id, UserId: in.UserId, TweetId: in.TweetId, Content: in.Content, LikeCount: in.LikeCount, CreatedAt: time.Now().Format(time.RFC3339), UpdatedAt: time.Now().Format(time.RFC3339)}, nil
+	return &pb.CommentRes{Id: id, UserId: in.UserId, TweetId: in.TweetId, Content: in.Content, LikeCount: in.LikeCount, CreatedAt: time.Now().String(), UpdatedAt: time.Now().String()}, nil
 }
 
 func (c *CommentRepo) UpdateComment(in *pb.UpdateAComment) (*pb.CommentRes, error) {
@@ -53,10 +52,11 @@ func (c *CommentRepo) DeleteComment(in *pb.CommentId) (*pb.Message, error) {
 }
 
 func (c *CommentRepo) GetComment(in *pb.CommentId) (*pb.Comment, error) {
-	query := `SELECT id, user_id, tweet_id, context, like_count, created_at, updated_at FROM comments WHERE id = $1`
+	query := `SELECT id, user_id, tweet_id, context, like_count FROM comments WHERE id = $1`
 
 	var comment pb.Comment
-	err := c.db.Get(&comment, query, in.Id)
+	err := c.db.QueryRow(query, in.Id).Scan(
+		&comment.Id, &comment.UserId, &comment.TweetId, &comment.Content, &comment.LikeCount)
 	if err != nil {
 		return nil, err
 	}
