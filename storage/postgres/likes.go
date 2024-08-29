@@ -32,7 +32,7 @@ func (l *LikeRepo) AddLike(in *pb.LikeReq) (*pb.LikeRes, error) {
 	return &res, nil
 }
 
-func (l *LikeRepo) DeleteLike(in *pb.LikeReq) (*pb.DLikeRes, error) {
+func (l *LikeRepo) DeleteLIke(in *pb.LikeReq) (*pb.DLikeRes, error) {
 	query := `DELETE FROM likes WHERE user_id = $1 AND tweet_id = $2 
 	          RETURNING user_id, tweet_id`
 

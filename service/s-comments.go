@@ -1,36 +1,12 @@
 package service
 
 import (
-	"log/slog"
+	"context"
 	pb "twitt-service/genproto/tweet"
-	"twitt-service/storage"
 )
 
-type CommentsService interface {
-	PostComment(in *pb.Comment) (*pb.CommentRes, error)
-	UpdateComment(in *pb.UpdateAComment) (*pb.CommentRes, error)
-	DeleteComment(in *pb.CommentId) (*pb.Message, error)
-	GetComment(in *pb.CommentId) (*pb.Comment, error)
-	GetAllComments(in *pb.CommentFilter) (*pb.Comments, error)
-	GetUserComments(in *pb.UserId) (*pb.Comments, error)
-	AddLikeToComment(in *pb.UserId) (*pb.Message, error)
-	DeleteLikeComment(in *pb.UserId) (*pb.Message, error)
-}
-
-type commentsService struct {
-	storage storage.CommentsStorage
-	logger  *slog.Logger
-}
-
-func NewCommentsService(st storage.CommentsStorage, logger *slog.Logger) CommentsService {
-	return &commentsService{
-		storage: st,
-		logger:  logger,
-	}
-}
-
-func (s *commentsService) PostComment(in *pb.Comment) (*pb.CommentRes, error) {
-	res, err := s.storage.PostComment(in)
+func (s *TweetService) PostComment(ctx context.Context, in *pb.Comment) (*pb.CommentRes, error) {
+	res, err := s.comments.PostComment(in)
 	if err != nil {
 		s.logger.Error("failed to post comment", err)
 		return nil, err
@@ -38,8 +14,8 @@ func (s *commentsService) PostComment(in *pb.Comment) (*pb.CommentRes, error) {
 	return res, nil
 }
 
-func (s *commentsService) UpdateComment(in *pb.UpdateAComment) (*pb.CommentRes, error) {
-	res, err := s.storage.UpdateComment(in)
+func (s *TweetService) UpdateComment(ctx context.Context, in *pb.UpdateAComment) (*pb.CommentRes, error) {
+	res, err := s.comments.UpdateComment(in)
 	if err != nil {
 		s.logger.Error("failed to update comment", err)
 		return nil, err
@@ -47,8 +23,8 @@ func (s *commentsService) UpdateComment(in *pb.UpdateAComment) (*pb.CommentRes, 
 	return res, nil
 }
 
-func (s *commentsService) DeleteComment(in *pb.CommentId) (*pb.Message, error) {
-	res, err := s.storage.DeleteComment(in)
+func (s *TweetService) DeleteComment(ctx context.Context, in *pb.CommentId) (*pb.Message, error) {
+	res, err := s.comments.DeleteComment(in)
 	if err != nil {
 		s.logger.Error("failed to delete comment", err)
 		return nil, err
@@ -56,8 +32,8 @@ func (s *commentsService) DeleteComment(in *pb.CommentId) (*pb.Message, error) {
 	return res, nil
 }
 
-func (s *commentsService) GetComment(in *pb.CommentId) (*pb.Comment, error) {
-	res, err := s.storage.GetComment(in)
+func (s *TweetService) GetComment(ctx context.Context, in *pb.CommentId) (*pb.Comment, error) {
+	res, err := s.comments.GetComment(in)
 	if err != nil {
 		s.logger.Error("failed to get comment", err)
 		return nil, err
@@ -65,8 +41,8 @@ func (s *commentsService) GetComment(in *pb.CommentId) (*pb.Comment, error) {
 	return res, nil
 }
 
-func (s *commentsService) GetAllComments(in *pb.CommentFilter) (*pb.Comments, error) {
-	res, err := s.storage.GetAllComments(in)
+func (s *TweetService) GetAllComments(ctx context.Context, in *pb.CommentFilter) (*pb.Comments, error) {
+	res, err := s.comments.GetAllComments(in)
 	if err != nil {
 		s.logger.Error("failed to get comments", err)
 		return nil, err
@@ -74,8 +50,8 @@ func (s *commentsService) GetAllComments(in *pb.CommentFilter) (*pb.Comments, er
 	return res, nil
 }
 
-func (s *commentsService) GetUserComments(in *pb.UserId) (*pb.Comments, error) {
-	res, err := s.storage.GetUserComments(in)
+func (s *TweetService) GetUserComments(ctx context.Context, in *pb.UserId) (*pb.Comments, error) {
+	res, err := s.comments.GetUserComments(in)
 	if err != nil {
 		s.logger.Error("failed to get comments", err)
 		return nil, err
@@ -83,8 +59,8 @@ func (s *commentsService) GetUserComments(in *pb.UserId) (*pb.Comments, error) {
 	return res, nil
 }
 
-func (s *commentsService) AddLikeToComment(in *pb.UserId) (*pb.Message, error) {
-	res, err := s.storage.AddLikeToComment(in)
+func (s *TweetService) AddLikeToComment(ctx context.Context, in *pb.CommentLikeReq) (*pb.Message, error) {
+	res, err := s.comments.AddLikeToComment(in)
 	if err != nil {
 		s.logger.Error("failed to add like to comment", err)
 		return nil, err
@@ -92,8 +68,8 @@ func (s *commentsService) AddLikeToComment(in *pb.UserId) (*pb.Message, error) {
 	return res, nil
 }
 
-func (s *commentsService) DeleteLikeComment(in *pb.UserId) (*pb.Message, error) {
-	res, err := s.storage.DeleteLikeComment(in)
+func (s *TweetService) DeleteLikeComment(ctx context.Context, in *pb.CommentLikeReq) (*pb.Message, error) {
+	res, err := s.comments.DeleteLikeComment(in)
 	if err != nil {
 		s.logger.Error("failed to delete like comment", err)
 		return nil, err

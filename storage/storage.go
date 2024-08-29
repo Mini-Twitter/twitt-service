@@ -15,14 +15,6 @@ type TweetStorage interface {
 	GetNewTweets(in *pb.UserId) (*pb.Tweets, error)
 }
 
-type SubscribeStorage interface {
-	Follow(in *pb.FollowReq) (*pb.FollowRes, error)
-	Unfollow(in *pb.FollowReq) (*pb.DFollowRes, error)
-	GetUserFollowers(in *pb.UserId) (*pb.Count, error)
-	GetUserFollows(in *pb.UserId) (*pb.Count, error)
-	MostPopularUser(in *pb.Void) (*pb.User, error)
-}
-
 type LikesStorage interface {
 	AddLike(in *pb.LikeReq) (*pb.LikeRes, error)
 	DeleteLIke(in *pb.LikeReq) (*pb.DLikeRes, error)

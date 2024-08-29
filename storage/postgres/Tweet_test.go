@@ -6,7 +6,6 @@ import (
 	"github.com/jmoiron/sqlx"
 	_ "github.com/lib/pq"
 	"testing"
-	"time"
 	pb "twitt-service/genproto/tweet"
 )
 
@@ -28,14 +27,11 @@ func TestPostTweet(t *testing.T) {
 		t.Fatal(err)
 	}
 	res := pb.Tweet{
-		Id:        uuid.New().String(),
-		UserId:    uuid.New().String(),
-		Hashtag:   "...",
-		Title:     "....",
-		Content:   "...",
-		ImageUrl:  "...",
-		CreatedAt: time.Now().String(),
-		LikeCount: 70,
+		UserId:   uuid.New().String(),
+		Hashtag:  "...",
+		Title:    "....",
+		Content:  "...",
+		ImageUrl: "...",
 	}
 
 	tweet := NewTweetRepo(db)

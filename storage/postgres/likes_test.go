@@ -92,7 +92,7 @@ func TestDeleteLike(t *testing.T) {
 
 	tweet := NewLikeRepo(db)
 
-	req, err := tweet.DeleteLike(&res)
+	req, err := tweet.DeleteLIke(&res)
 	if err != nil {
 		t.Errorf("Error deleting like: %v", err)
 	}
