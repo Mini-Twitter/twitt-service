@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"google.golang.org/grpc"
 	"log"
 	"net"
@@ -29,23 +30,21 @@ func main() {
 	tweetSr := service.NewTweetService(tweetSt, tweetSt2, tweetSt1, logger)
 
 	listen, err := net.Listen("tcp", cfg.TWITT_SERVICE)
+	fmt.Println("Listening on " + cfg.TWITT_SERVICE)
 	if err != nil {
 		logger.Error("Error listening on port "+cfg.TWITT_SERVICE, "error", err)
 		log.Fatal(err)
 	}
 
-	go func() {
-		server := grpc.NewServer()
-		tweet.RegisterTweetServiceServer(
-			server,
-			tweetSr,
-		)
-		logger.Info("Starting server on port " + cfg.TWITT_SERVICE)
-		log.Panicln("Starting server on port " + cfg.TWITT_SERVICE)
+	server := grpc.NewServer()
+	tweet.RegisterTweetServiceServer(
+		server,
+		tweetSr,
+	)
 
-		if err := server.Serve(listen); err != nil {
-			logger.Error("Error starting server on port "+cfg.TWITT_SERVICE, "error", err)
-			log.Fatal(err)
-		}
-	}()
+	if err := server.Serve(listen); err != nil {
+		logger.Error("Error starting server on port "+cfg.TWITT_SERVICE, "error", err)
+		log.Fatal(err)
+	}
+
 }

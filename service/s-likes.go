@@ -14,7 +14,7 @@ func (s *TweetService) AddLike(ctx context.Context, in *pb.LikeReq) (*pb.LikeRes
 	return res, nil
 }
 
-func (s *TweetService) DeleteLIke(ctx context.Context, in *pb.LikeReq) (*pb.DLikeRes, error) {
+func (s *TweetService) DeleteLike(ctx context.Context, in *pb.LikeReq) (*pb.DLikeRes, error) {
 	res, err := s.like.DeleteLIke(in)
 	if err != nil {
 		s.logger.Error("failed to delete liked tweet", err)

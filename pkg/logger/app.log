@@ -1,0 +1,5 @@
+{"time":"2024-08-29T18:44:48.243872556+05:00","level":"ERROR","msg":"Error connecting to database"}
+{"time":"2024-08-29T18:44:56.088145618+05:00","level":"ERROR","msg":"Error connecting to database"}
+{"time":"2024-08-29T18:47:30.004070217+05:00","level":"INFO","msg":"Starting server on port :8088"}
+{"time":"2024-08-29T18:48:19.140991109+05:00","level":"ERROR","msg":"Error listening on port :80882","error":"listen tcp: address 80882: invalid port"}
+{"time":"2024-08-29T18:48:29.051540079+05:00","level":"INFO","msg":"Starting server on port :3000"}
