@@ -3,3 +3,17 @@
 {"time":"2024-08-29T18:47:30.004070217+05:00","level":"INFO","msg":"Starting server on port :8088"}
 {"time":"2024-08-29T18:48:19.140991109+05:00","level":"ERROR","msg":"Error listening on port :80882","error":"listen tcp: address 80882: invalid port"}
 {"time":"2024-08-29T18:48:29.051540079+05:00","level":"INFO","msg":"Starting server on port :3000"}
+{"time":"2024-08-30T19:25:30.152523604+05:00","level":"INFO","msg":"Shutting down, waiting for consumers to finish"}
+{"time":"2024-08-30T19:25:30.153795213+05:00","level":"INFO","msg":"Context done, stopping consumer","consumer":"UpdateTweet"}
+{"time":"2024-08-30T19:25:30.153805081+05:00","level":"INFO","msg":"Context done, stopping consumer","consumer":"AddLike"}
+{"time":"2024-08-30T19:25:30.153795142+05:00","level":"INFO","msg":"Context done, stopping consumer","consumer":"PostComment"}
+{"time":"2024-08-30T19:25:30.153801354+05:00","level":"INFO","msg":"Context done, stopping consumer","consumer":"UpdateComment"}
+{"time":"2024-08-30T19:25:30.153871727+05:00","level":"INFO","msg":"Context done, stopping consumer","consumer":"PostTweet"}
+{"time":"2024-08-30T19:25:30.15389438+05:00","level":"INFO","msg":"All consumers have stopped"}
+{"time":"2024-08-30T19:25:46.51619137+05:00","level":"INFO","msg":"Shutting down, waiting for consumers to finish"}
+{"time":"2024-08-30T19:25:46.51632846+05:00","level":"INFO","msg":"Context done, stopping consumer","consumer":"PostComment"}
+{"time":"2024-08-30T19:25:46.516343789+05:00","level":"INFO","msg":"Context done, stopping consumer","consumer":"PostTweet"}
+{"time":"2024-08-30T19:25:46.516355131+05:00","level":"INFO","msg":"Context done, stopping consumer","consumer":"UpdateTweet"}
+{"time":"2024-08-30T19:25:46.516325695+05:00","level":"INFO","msg":"Context done, stopping consumer","consumer":"UpdateComment"}
+{"time":"2024-08-30T19:25:46.516419863+05:00","level":"INFO","msg":"Context done, stopping consumer","consumer":"AddLike"}
+{"time":"2024-08-30T19:25:46.516513611+05:00","level":"INFO","msg":"All consumers have stopped"}
