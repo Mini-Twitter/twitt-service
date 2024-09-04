@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"github.com/jmoiron/sqlx"
 	amqp "github.com/rabbitmq/amqp091-go"
+	"log"
 	"log/slog"
 	"os"
 	"os/signal"
@@ -82,6 +83,7 @@ func (m *MsgBroker) StartToConsume(ctx context.Context) {
 func (m *MsgBroker) consumeMessages(ctx context.Context, messages <-chan amqp.Delivery, logPrefix string) {
 	defer m.wg.Done()
 	for {
+		log.Println(logPrefix)
 		select {
 		case val := <-messages:
 			var err error
@@ -103,7 +105,7 @@ func (m *MsgBroker) consumeMessages(ctx context.Context, messages <-chan amqp.De
 				}
 				val.Ack(false)
 
-				fmt.Println(req)
+				fmt.Println(&req)
 
 			case "UpdateComment":
 				var req tweet.UpdateAComment
