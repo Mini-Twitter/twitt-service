@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"github.com/jmoiron/sqlx"
 	amqp "github.com/rabbitmq/amqp091-go"
-	"log"
 	"log/slog"
 	"os"
 	"os/signal"
@@ -17,21 +16,19 @@ import (
 	"twitt-service/service"
 )
 
-type (
-	MsgBroker struct {
-		service          *service.TweetService
-		channel          *amqp.Channel
-		PostComment      <-chan amqp.Delivery
-		UpdateComment    <-chan amqp.Delivery
-		AddLike          <-chan amqp.Delivery
-		PostTweet        <-chan amqp.Delivery
-		UpdateTweet      <-chan amqp.Delivery
-		logger           *slog.Logger
-		wg               *sync.WaitGroup
-		numberOfServices int
-		Db               *sqlx.DB
-	}
-)
+type MsgBroker struct {
+	service          *service.TweetService
+	channel          *amqp.Channel
+	PostComment      <-chan amqp.Delivery
+	UpdateComment    <-chan amqp.Delivery
+	AddLike          <-chan amqp.Delivery
+	PostTweet        <-chan amqp.Delivery
+	UpdateTweet      <-chan amqp.Delivery
+	logger           *slog.Logger
+	wg               *sync.WaitGroup
+	numberOfServices int
+	Db               *sqlx.DB
+}
 
 func New(
 	service *service.TweetService,
@@ -83,82 +80,31 @@ func (m *MsgBroker) StartToConsume(ctx context.Context) {
 func (m *MsgBroker) consumeMessages(ctx context.Context, messages <-chan amqp.Delivery, logPrefix string) {
 	defer m.wg.Done()
 	for {
-		log.Println(logPrefix)
 		select {
-		case val := <-messages:
-			var err error
+		case val, ok := <-messages:
+			if !ok {
+				m.logger.Info("Message channel closed", "consumer", logPrefix)
+				return
+			}
 
+			var err error
 			switch logPrefix {
 			case "PostComment":
-				var req tweet.Comment
-
-				if err := json.Unmarshal(val.Body, &req); err != nil {
-					m.logger.Error("Error while unmarshaling data", "error", err)
-					val.Nack(false, false)
-					return
-				}
-				_, err = m.service.PostComment(ctx, &req)
-				if err != nil {
-					m.logger.Error("Error while creating booking", "error", err)
-					val.Nack(false, false)
-					return
-				}
-				val.Ack(false)
-
-				fmt.Println(&req)
-
+				err = m.handlePostComment(ctx, val)
 			case "UpdateComment":
-				var req tweet.UpdateAComment
-
-				if err := json.Unmarshal(val.Body, &req); err != nil {
-					m.logger.Error("Error while unmarshaling data", "error", err)
-					val.Nack(false, false)
-					return
-				}
-				_, err = m.service.UpdateComment(ctx, &req)
-
-				fmt.Println(req)
+				err = m.handleUpdateComment(ctx, val)
 			case "PostTweet":
-				var req tweet.Tweet
-
-				if err := json.Unmarshal(val.Body, &req); err != nil {
-					m.logger.Error("Error while unmarshaling data", "error", err)
-					val.Nack(false, false)
-					return
-				}
-				_, err = m.service.PostTweet(ctx, &req)
-
-				fmt.Println(req)
-
+				err = m.handlePostTweet(ctx, val)
 			case "UpdateTweet":
-				var req tweet.UpdateATweet
-
-				if err := json.Unmarshal(val.Body, &req); err != nil {
-					m.logger.Error("Error while unmarshaling data", "error", err)
-					val.Nack(false, false)
-					return
-				}
-				_, err = m.service.UpdateTweet(ctx, &req)
-
-				fmt.Println(req)
-
+				err = m.handleUpdateTweet(ctx, val)
 			case "AddLike":
-				var req tweet.LikeReq
-				if err := json.Unmarshal(val.Body, &req); err != nil {
-					m.logger.Error("Error while unmarshaling data", "error", err)
-					val.Nack(false, false)
-					return
-				}
-				_, err = m.service.AddLike(ctx, &req)
-
-				fmt.Println(req)
-
+				err = m.handleAddLike(ctx, val)
 			}
 
 			if err != nil {
-				m.logger.Error("Failed in %s: %s", logPrefix, err.Error())
+				m.logger.Error(fmt.Sprintf("Failed in %s: %v", logPrefix, err))
 				val.Nack(false, false)
-				return
+				continue
 			}
 
 			val.Ack(false)
@@ -168,4 +114,63 @@ func (m *MsgBroker) consumeMessages(ctx context.Context, messages <-chan amqp.De
 			return
 		}
 	}
+}
+
+func (m *MsgBroker) handlePostComment(ctx context.Context, msg amqp.Delivery) error {
+	var req tweet.Comment
+	if err := json.Unmarshal(msg.Body, &req); err != nil {
+		return fmt.Errorf("error while unmarshaling PostComment data: %v", err)
+	}
+	fmt.Println(msg.Body, req)
+	fmt.Println("---------")
+	_, err := m.service.PostComment(ctx, &req)
+	return err
+}
+
+func (m *MsgBroker) handleUpdateComment(ctx context.Context, msg amqp.Delivery) error {
+	var req tweet.UpdateAComment
+	if err := json.Unmarshal(msg.Body, &req); err != nil {
+		return fmt.Errorf("error while unmarshaling UpdateComment data: %v", err)
+	}
+	fmt.Println(msg.Body, req)
+	fmt.Println("++++++++")
+	_, err := m.service.UpdateComment(ctx, &req)
+	return err
+}
+
+func (m *MsgBroker) handlePostTweet(ctx context.Context, msg amqp.Delivery) error {
+	var req tweet.LikeReq
+	if err := json.Unmarshal(msg.Body, &req); err != nil {
+		return fmt.Errorf("error while unmarshaling AddLike data: %v", err)
+	}
+
+	fmt.Println(msg.Body, &req)
+	fmt.Println("=========")
+	fmt.Println(string(msg.Body), req)
+	r, err := m.service.AddLike(ctx, &req)
+	fmt.Println(r, err)
+	return err
+}
+
+func (m *MsgBroker) handleUpdateTweet(ctx context.Context, msg amqp.Delivery) error {
+	var req tweet.UpdateATweet
+	if err := json.Unmarshal(msg.Body, &req); err != nil {
+		return fmt.Errorf("error while unmarshaling UpdateTweet data: %v", err)
+	}
+	fmt.Println(msg.Body, req)
+	fmt.Println("aaaaaaaaa")
+	_, err := m.service.UpdateTweet(ctx, &req)
+	return err
+}
+
+func (m *MsgBroker) handleAddLike(ctx context.Context, msg amqp.Delivery) error {
+	var req tweet.Tweet
+	if err := json.Unmarshal(msg.Body, &req); err != nil {
+		return fmt.Errorf("error while unmarshaling PostTweet data: %v", err)
+	}
+	fmt.Println(msg.Body, &req)
+	fmt.Println("ddddddd")
+	r, err := m.service.PostTweet(ctx, &req)
+	fmt.Println(r, err)
+	return err
 }

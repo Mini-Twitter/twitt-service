@@ -6,6 +6,7 @@ import (
 	amqp "github.com/rabbitmq/amqp091-go"
 	"google.golang.org/grpc"
 	"log"
+	"log/slog"
 	"net"
 	"sync"
 	"twitt-service/genproto/tweet"
@@ -26,72 +27,20 @@ func main() {
 		log.Fatal(err)
 	}
 
-	conn, err := amqp.Dial("amqp://guest:guest@localhost:5672/")
+	conn, ch, err := initRabbitMQ(logger)
 	if err != nil {
-		log.Fatalf("Failed to connect to RabbitMQ: %v", err)
+		log.Fatalf("Failed to initialize RabbitMQ: %v", err)
 	}
 	defer conn.Close()
-
-	ch, err := conn.Channel()
-	if err != nil {
-		log.Fatalf("Failed to open a channel: %v", err)
-	}
 	defer ch.Close()
 
-	cr1, err := getQueue(ch, "PostComment")
+	queues, err := initQueues(ch, logger)
 	if err != nil {
-		log.Fatalf("Failed to declare PostComment queue: %v", err)
-	}
-
-	cr2, err := getQueue(ch, "UpdateComment")
-	if err != nil {
-		log.Fatalf("Failed to declare UpdateComment queue: %v", err)
-	}
-
-	cr3, err := getQueue(ch, "PostTweet")
-	if err != nil {
-		log.Fatalf("Failed to declare PostTweet queue: %v", err)
-	}
-
-	cr4, err := getQueue(ch, "UpdateTweet")
-	if err != nil {
-		log.Fatalf("Failed to declare UpdateTweet queue: %v", err)
-	}
-
-	cr5, err := getQueue(ch, "AddLike")
-	if err != nil {
-		log.Fatalf("Failed to declare AddLike queue: %v", err)
-	}
-
-	rc1, err := getMessageQueue(ch, cr1)
-	if err != nil {
-		log.Fatalf("Failed to consume PostComment messages: %v", err)
-	}
-
-	rc2, err := getMessageQueue(ch, cr2)
-	if err != nil {
-		log.Fatalf("Failed to consume UpdateComment messages: %v", err)
-	}
-
-	rc3, err := getMessageQueue(ch, cr3)
-	if err != nil {
-		log.Fatalf("Failed to consume PostTweet messages: %v", err)
-	}
-
-	rc4, err := getMessageQueue(ch, cr4)
-	if err != nil {
-		log.Fatalf("Failed to consume UpdateTweet messages: %v", err)
-	}
-
-	rc5, err := getMessageQueue(ch, cr5)
-	if err != nil {
-		log.Fatalf("Failed to consume AddLike messages: %v", err)
+		log.Fatalf("Failed to initialize queues: %v", err)
 	}
 
 	tweetSt := postgres.NewTweetRepo(db)
-
 	tweetSt1 := postgres.NewCommentRepo(db)
-
 	tweetSt2 := postgres.NewLikeRepo(db)
 	tweetSr := service.NewTweetService(tweetSt, tweetSt2, tweetSt1, logger)
 
@@ -102,7 +51,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	res := messagebroker.New(tweetSr, ch, rc1, rc2, rc3, rc5, rc4, &sync.WaitGroup{}, 5, db)
+	res := messagebroker.New(tweetSr, ch, queues["PostComment"], queues["UpdateComment"], queues["PostTweet"], queues["AddLike"], queues["UpdateTweet"], &sync.WaitGroup{}, 5, db)
 	go res.StartToConsume(context.Background())
 
 	server := grpc.NewServer()
@@ -115,7 +64,45 @@ func main() {
 		logger.Error("Error starting server on port "+cfg.TWITT_SERVICE, "error", err)
 		log.Fatal(err)
 	}
+}
 
+func initRabbitMQ(logger *slog.Logger) (*amqp.Connection, *amqp.Channel, error) {
+	conn, err := amqp.Dial("amqp://guest:guest@localhost:5672/")
+	if err != nil {
+		logger.Error("Failed to connect to RabbitMQ", "error", err)
+		return nil, nil, err
+	}
+
+	ch, err := conn.Channel()
+	if err != nil {
+		logger.Error("Failed to open a channel", "error", err)
+		return nil, nil, err
+	}
+
+	return conn, ch, nil
+}
+
+func initQueues(ch *amqp.Channel, logger *slog.Logger) (map[string]<-chan amqp.Delivery, error) {
+	queueNames := []string{"PostComment", "UpdateComment", "PostTweet", "UpdateTweet", "AddLike"}
+	queues := make(map[string]<-chan amqp.Delivery)
+
+	for _, name := range queueNames {
+		q, err := getQueue(ch, name)
+		if err != nil {
+			logger.Error("Failed to declare queue: "+name, "error", err)
+			return nil, err
+		}
+
+		rc, err := getMessageQueue(ch, q)
+		if err != nil {
+			logger.Error("Failed to consume messages from queue: "+name, "error", err)
+			return nil, err
+		}
+
+		queues[name] = rc
+	}
+
+	return queues, nil
 }
 
 func getQueue(ch *amqp.Channel, queueName string) (amqp.Queue, error) {
