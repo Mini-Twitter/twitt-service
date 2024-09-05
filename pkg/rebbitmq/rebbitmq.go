@@ -121,7 +121,7 @@ func (m *MsgBroker) handlePostComment(ctx context.Context, msg amqp.Delivery) er
 	if err := json.Unmarshal(msg.Body, &req); err != nil {
 		return fmt.Errorf("error while unmarshaling PostComment data: %v", err)
 	}
-	fmt.Println(msg.Body, req)
+	fmt.Printf("%+v\n", req)
 	fmt.Println("---------")
 	_, err := m.service.PostComment(ctx, &req)
 	return err

@@ -29,9 +29,9 @@ func Load() Config {
 	config.TWITT_SERVICE = cast.ToString(coalesce("TWITT_SERVICE", ":8088"))
 	config.DB_HOST = cast.ToString(coalesce("DB_HOST", "localhost"))
 	config.DB_PORT = cast.ToString(coalesce("DB_PORT", "5432"))
-	config.DB_NAME = cast.ToString(coalesce("DB_NAME", "tweet"))
+	config.DB_NAME = cast.ToString(coalesce("DB_NAME", "tweets"))
 	config.DB_USER = cast.ToString(coalesce("DB_USER", "postgres"))
-	config.DB_PASSWORD = cast.ToString(coalesce("DB_PASSWORD", "dodi"))
+	config.DB_PASSWORD = cast.ToString(coalesce("DB_PASSWORD", "123321"))
 
 	return config
 
