@@ -73,7 +73,6 @@ func (l *LikeRepo) GetUserLikes(in *pb.UserId) (*pb.TweetTitles, error) {
 
 func (l *LikeRepo) GetCountTweetLikes(in *pb.TweetId) (*pb.Count, error) {
 	query := `SELECT COUNT(*) FROM likes WHERE tweet_id = $1`
-
 	var count pb.Count
 	err := l.db.QueryRowContext(context.Background(), query, in.Id).Scan(&count.Count)
 	if err != nil {

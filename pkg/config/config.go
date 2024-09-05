@@ -31,7 +31,7 @@ func Load() Config {
 	config.DB_PORT = cast.ToString(coalesce("DB_PORT", "5432"))
 	config.DB_NAME = cast.ToString(coalesce("DB_NAME", "tweets"))
 	config.DB_USER = cast.ToString(coalesce("DB_USER", "postgres"))
-	config.DB_PASSWORD = cast.ToString(coalesce("DB_PASSWORD", "123321"))
+	config.DB_PASSWORD = cast.ToString(coalesce("DB_PASSWORD", "BEKJONS"))
 
 	return config
 

@@ -23,5 +23,6 @@ create table comments (
 create table likes (
     user_id uuid not null,
     tweet_id uuid not null,
-    created_at timestamp with time zone default now()
+    created_at timestamp with time zone default now(),
+    UNIQUE (user_id, tweet_id)
 )
