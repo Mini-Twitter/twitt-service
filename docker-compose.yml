@@ -11,7 +11,7 @@ services:
     networks:
       - tweetNet
     ports:
-      - 5433:5432
+      - 5434:5432
     volumes:
       - postgres_data:/postgres/data
     healthcheck:
