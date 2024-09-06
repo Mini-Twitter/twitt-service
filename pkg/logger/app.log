@@ -88,3 +88,18 @@
 {"time":"2024-09-05T17:48:00.963403131+05:00","level":"INFO","msg":"Context done, stopping consumer","consumer":"UpdateTweet"}
 {"time":"2024-09-05T17:48:00.963560877+05:00","level":"INFO","msg":"Context done, stopping consumer","consumer":"PostComment"}
 {"time":"2024-09-05T17:48:00.963583489+05:00","level":"INFO","msg":"All consumers have stopped"}
+{"time":"2024-09-06T16:51:12.593290357+05:00","level":"INFO","msg":"Shutting down, waiting for consumers to finish"}
+{"time":"2024-09-06T16:51:12.593490596+05:00","level":"INFO","msg":"Context done, stopping consumer","consumer":"PostComment"}
+{"time":"2024-09-06T16:51:12.593512959+05:00","level":"INFO","msg":"Context done, stopping consumer","consumer":"UpdateTweet"}
+{"time":"2024-09-06T16:51:12.593522988+05:00","level":"INFO","msg":"Context done, stopping consumer","consumer":"UpdateComment"}
+{"time":"2024-09-06T16:51:12.59353493+05:00","level":"INFO","msg":"Context done, stopping consumer","consumer":"PostTweet"}
+{"time":"2024-09-06T16:51:12.593662322+05:00","level":"INFO","msg":"Context done, stopping consumer","consumer":"AddLike"}
+{"time":"2024-09-06T16:51:12.593717446+05:00","level":"INFO","msg":"All consumers have stopped"}
+{"time":"2024-09-06T17:07:41.533451094+05:00","level":"ERROR","msg":"failed to delete liked tweet","!BADKEY":"pq: invalid input syntax for type uuid: \"\""}
+{"time":"2024-09-06T17:19:48.894853642+05:00","level":"INFO","msg":"Shutting down, waiting for consumers to finish"}
+{"time":"2024-09-06T17:19:48.894952229+05:00","level":"INFO","msg":"Context done, stopping consumer","consumer":"PostComment"}
+{"time":"2024-09-06T17:19:48.894951407+05:00","level":"INFO","msg":"Context done, stopping consumer","consumer":"UpdateTweet"}
+{"time":"2024-09-06T17:19:48.894976394+05:00","level":"INFO","msg":"Context done, stopping consumer","consumer":"PostTweet"}
+{"time":"2024-09-06T17:19:48.89498464+05:00","level":"INFO","msg":"Context done, stopping consumer","consumer":"AddLike"}
+{"time":"2024-09-06T17:19:48.895101531+05:00","level":"INFO","msg":"Context done, stopping consumer","consumer":"UpdateComment"}
+{"time":"2024-09-06T17:19:48.895117482+05:00","level":"INFO","msg":"All consumers have stopped"}
