@@ -88,3 +88,23 @@
 {"time":"2024-09-05T17:48:00.963403131+05:00","level":"INFO","msg":"Context done, stopping consumer","consumer":"UpdateTweet"}
 {"time":"2024-09-05T17:48:00.963560877+05:00","level":"INFO","msg":"Context done, stopping consumer","consumer":"PostComment"}
 {"time":"2024-09-05T17:48:00.963583489+05:00","level":"INFO","msg":"All consumers have stopped"}
+{"time":"2024-09-06T16:39:59.220992999+05:00","level":"ERROR","msg":"failed to create liked tweet","!BADKEY":"pq: password authentication failed for user \"postgres\""}
+{"time":"2024-09-06T16:39:59.221198928+05:00","level":"ERROR","msg":"Failed in PostTweet: pq: password authentication failed for user \"postgres\""}
+{"time":"2024-09-06T16:40:25.995434087+05:00","level":"INFO","msg":"Shutting down, waiting for consumers to finish"}
+{"time":"2024-09-06T16:40:25.995610497+05:00","level":"INFO","msg":"Context done, stopping consumer","consumer":"AddLike"}
+{"time":"2024-09-06T16:40:25.995635422+05:00","level":"INFO","msg":"Context done, stopping consumer","consumer":"UpdateTweet"}
+{"time":"2024-09-06T16:40:25.995670375+05:00","level":"INFO","msg":"Context done, stopping consumer","consumer":"UpdateComment"}
+{"time":"2024-09-06T16:40:25.995610507+05:00","level":"INFO","msg":"Context done, stopping consumer","consumer":"PostComment"}
+{"time":"2024-09-06T16:40:25.995883452+05:00","level":"INFO","msg":"Context done, stopping consumer","consumer":"PostTweet"}
+{"time":"2024-09-06T16:40:25.995927867+05:00","level":"INFO","msg":"All consumers have stopped"}
+{"time":"2024-09-06T16:40:52.306143484+05:00","level":"ERROR","msg":"failed to create liked tweet","!BADKEY":"pq: invalid input syntax for type uuid: \"string\""}
+{"time":"2024-09-06T16:40:52.306285347+05:00","level":"ERROR","msg":"Failed in PostTweet: pq: invalid input syntax for type uuid: \"string\""}
+{"time":"2024-09-06T16:42:05.251564889+05:00","level":"ERROR","msg":"failed to update tweet","!BADKEY":"pq: invalid input syntax for type uuid: \"string\""}
+{"time":"2024-09-06T16:42:05.251600623+05:00","level":"ERROR","msg":"Failed in UpdateTweet: pq: invalid input syntax for type uuid: \"string\""}
+{"time":"2024-09-06T17:33:58.686427974+05:00","level":"INFO","msg":"Shutting down, waiting for consumers to finish"}
+{"time":"2024-09-06T17:33:58.686531915+05:00","level":"INFO","msg":"Context done, stopping consumer","consumer":"PostTweet"}
+{"time":"2024-09-06T17:33:58.686538079+05:00","level":"INFO","msg":"Context done, stopping consumer","consumer":"PostComment"}
+{"time":"2024-09-06T17:33:58.686571068+05:00","level":"INFO","msg":"Context done, stopping consumer","consumer":"AddLike"}
+{"time":"2024-09-06T17:33:58.686542124+05:00","level":"INFO","msg":"Context done, stopping consumer","consumer":"UpdateTweet"}
+{"time":"2024-09-06T17:33:58.686707197+05:00","level":"INFO","msg":"Context done, stopping consumer","consumer":"UpdateComment"}
+{"time":"2024-09-06T17:33:58.686764793+05:00","level":"INFO","msg":"All consumers have stopped"}

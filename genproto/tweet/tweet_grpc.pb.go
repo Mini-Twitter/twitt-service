@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.4.0
 // - protoc             v4.25.1
-// source: protocol-buffers/tweet/tweet.proto
+// source: tweet/tweet.proto
 
 package tweet
 
@@ -27,6 +27,12 @@ const (
 	TweetService_GetAllTweets_FullMethodName       = "/tweet.TweetService/GetAllTweets"
 	TweetService_RecommendTweets_FullMethodName    = "/tweet.TweetService/RecommendTweets"
 	TweetService_GetNewTweets_FullMethodName       = "/tweet.TweetService/GetNewTweets"
+	TweetService_ReTweet_FullMethodName            = "/tweet.TweetService/ReTweet"
+	TweetService_Follow_FullMethodName             = "/tweet.TweetService/Follow"
+	TweetService_Unfollow_FullMethodName           = "/tweet.TweetService/Unfollow"
+	TweetService_GetUserFollowers_FullMethodName   = "/tweet.TweetService/GetUserFollowers"
+	TweetService_GetUserFollows_FullMethodName     = "/tweet.TweetService/GetUserFollows"
+	TweetService_MostPopularUser_FullMethodName    = "/tweet.TweetService/MostPopularUser"
 	TweetService_AddLike_FullMethodName            = "/tweet.TweetService/AddLike"
 	TweetService_DeleteLike_FullMethodName         = "/tweet.TweetService/DeleteLike"
 	TweetService_GetUserLikes_FullMethodName       = "/tweet.TweetService/GetUserLikes"
@@ -55,12 +61,19 @@ type TweetServiceClient interface {
 	GetAllTweets(ctx context.Context, in *TweetFilter, opts ...grpc.CallOption) (*Tweets, error)
 	RecommendTweets(ctx context.Context, in *UserId, opts ...grpc.CallOption) (*Tweets, error)
 	GetNewTweets(ctx context.Context, in *UserId, opts ...grpc.CallOption) (*Tweets, error)
+	ReTweet(ctx context.Context, in *ReTweetReq, opts ...grpc.CallOption) (*ReTweetRes, error)
+	// Subscribe
+	Follow(ctx context.Context, in *FollowReq, opts ...grpc.CallOption) (*FollowRes, error)
+	Unfollow(ctx context.Context, in *FollowReq, opts ...grpc.CallOption) (*DFollowRes, error)
+	GetUserFollowers(ctx context.Context, in *UserId, opts ...grpc.CallOption) (*Count, error)
+	GetUserFollows(ctx context.Context, in *UserId, opts ...grpc.CallOption) (*Count, error)
+	MostPopularUser(ctx context.Context, in *Void, opts ...grpc.CallOption) (*User, error)
 	// Likes
 	AddLike(ctx context.Context, in *LikeReq, opts ...grpc.CallOption) (*LikeRes, error)
 	DeleteLike(ctx context.Context, in *LikeReq, opts ...grpc.CallOption) (*DLikeRes, error)
 	GetUserLikes(ctx context.Context, in *UserId, opts ...grpc.CallOption) (*TweetTitles, error)
 	GetCountTweetLikes(ctx context.Context, in *TweetId, opts ...grpc.CallOption) (*Count, error)
-	MostLikedTweets(ctx context.Context, in *Void, opts ...grpc.CallOption) (*Tweet, error)
+	MostLikedTweets(ctx context.Context, in *Void, opts ...grpc.CallOption) (*TweetResponse, error)
 	// Comments
 	PostComment(ctx context.Context, in *Comment, opts ...grpc.CallOption) (*CommentRes, error)
 	UpdateComment(ctx context.Context, in *UpdateAComment, opts ...grpc.CallOption) (*CommentRes, error)
@@ -160,6 +173,66 @@ func (c *tweetServiceClient) GetNewTweets(ctx context.Context, in *UserId, opts 
 	return out, nil
 }
 
+func (c *tweetServiceClient) ReTweet(ctx context.Context, in *ReTweetReq, opts ...grpc.CallOption) (*ReTweetRes, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ReTweetRes)
+	err := c.cc.Invoke(ctx, TweetService_ReTweet_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *tweetServiceClient) Follow(ctx context.Context, in *FollowReq, opts ...grpc.CallOption) (*FollowRes, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(FollowRes)
+	err := c.cc.Invoke(ctx, TweetService_Follow_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *tweetServiceClient) Unfollow(ctx context.Context, in *FollowReq, opts ...grpc.CallOption) (*DFollowRes, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DFollowRes)
+	err := c.cc.Invoke(ctx, TweetService_Unfollow_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *tweetServiceClient) GetUserFollowers(ctx context.Context, in *UserId, opts ...grpc.CallOption) (*Count, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(Count)
+	err := c.cc.Invoke(ctx, TweetService_GetUserFollowers_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *tweetServiceClient) GetUserFollows(ctx context.Context, in *UserId, opts ...grpc.CallOption) (*Count, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(Count)
+	err := c.cc.Invoke(ctx, TweetService_GetUserFollows_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *tweetServiceClient) MostPopularUser(ctx context.Context, in *Void, opts ...grpc.CallOption) (*User, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(User)
+	err := c.cc.Invoke(ctx, TweetService_MostPopularUser_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *tweetServiceClient) AddLike(ctx context.Context, in *LikeReq, opts ...grpc.CallOption) (*LikeRes, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(LikeRes)
@@ -200,9 +273,9 @@ func (c *tweetServiceClient) GetCountTweetLikes(ctx context.Context, in *TweetId
 	return out, nil
 }
 
-func (c *tweetServiceClient) MostLikedTweets(ctx context.Context, in *Void, opts ...grpc.CallOption) (*Tweet, error) {
+func (c *tweetServiceClient) MostLikedTweets(ctx context.Context, in *Void, opts ...grpc.CallOption) (*TweetResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(Tweet)
+	out := new(TweetResponse)
 	err := c.cc.Invoke(ctx, TweetService_MostLikedTweets_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -303,12 +376,19 @@ type TweetServiceServer interface {
 	GetAllTweets(context.Context, *TweetFilter) (*Tweets, error)
 	RecommendTweets(context.Context, *UserId) (*Tweets, error)
 	GetNewTweets(context.Context, *UserId) (*Tweets, error)
+	ReTweet(context.Context, *ReTweetReq) (*ReTweetRes, error)
+	// Subscribe
+	Follow(context.Context, *FollowReq) (*FollowRes, error)
+	Unfollow(context.Context, *FollowReq) (*DFollowRes, error)
+	GetUserFollowers(context.Context, *UserId) (*Count, error)
+	GetUserFollows(context.Context, *UserId) (*Count, error)
+	MostPopularUser(context.Context, *Void) (*User, error)
 	// Likes
 	AddLike(context.Context, *LikeReq) (*LikeRes, error)
 	DeleteLike(context.Context, *LikeReq) (*DLikeRes, error)
 	GetUserLikes(context.Context, *UserId) (*TweetTitles, error)
 	GetCountTweetLikes(context.Context, *TweetId) (*Count, error)
-	MostLikedTweets(context.Context, *Void) (*Tweet, error)
+	MostLikedTweets(context.Context, *Void) (*TweetResponse, error)
 	// Comments
 	PostComment(context.Context, *Comment) (*CommentRes, error)
 	UpdateComment(context.Context, *UpdateAComment) (*CommentRes, error)
@@ -349,6 +429,24 @@ func (UnimplementedTweetServiceServer) RecommendTweets(context.Context, *UserId)
 func (UnimplementedTweetServiceServer) GetNewTweets(context.Context, *UserId) (*Tweets, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetNewTweets not implemented")
 }
+func (UnimplementedTweetServiceServer) ReTweet(context.Context, *ReTweetReq) (*ReTweetRes, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ReTweet not implemented")
+}
+func (UnimplementedTweetServiceServer) Follow(context.Context, *FollowReq) (*FollowRes, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Follow not implemented")
+}
+func (UnimplementedTweetServiceServer) Unfollow(context.Context, *FollowReq) (*DFollowRes, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Unfollow not implemented")
+}
+func (UnimplementedTweetServiceServer) GetUserFollowers(context.Context, *UserId) (*Count, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUserFollowers not implemented")
+}
+func (UnimplementedTweetServiceServer) GetUserFollows(context.Context, *UserId) (*Count, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUserFollows not implemented")
+}
+func (UnimplementedTweetServiceServer) MostPopularUser(context.Context, *Void) (*User, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method MostPopularUser not implemented")
+}
 func (UnimplementedTweetServiceServer) AddLike(context.Context, *LikeReq) (*LikeRes, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddLike not implemented")
 }
@@ -361,7 +459,7 @@ func (UnimplementedTweetServiceServer) GetUserLikes(context.Context, *UserId) (*
 func (UnimplementedTweetServiceServer) GetCountTweetLikes(context.Context, *TweetId) (*Count, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetCountTweetLikes not implemented")
 }
-func (UnimplementedTweetServiceServer) MostLikedTweets(context.Context, *Void) (*Tweet, error) {
+func (UnimplementedTweetServiceServer) MostLikedTweets(context.Context, *Void) (*TweetResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method MostLikedTweets not implemented")
 }
 func (UnimplementedTweetServiceServer) PostComment(context.Context, *Comment) (*CommentRes, error) {
@@ -541,6 +639,114 @@ func _TweetService_GetNewTweets_Handler(srv interface{}, ctx context.Context, de
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(TweetServiceServer).GetNewTweets(ctx, req.(*UserId))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _TweetService_ReTweet_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ReTweetReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TweetServiceServer).ReTweet(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TweetService_ReTweet_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TweetServiceServer).ReTweet(ctx, req.(*ReTweetReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _TweetService_Follow_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(FollowReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TweetServiceServer).Follow(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TweetService_Follow_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TweetServiceServer).Follow(ctx, req.(*FollowReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _TweetService_Unfollow_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(FollowReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TweetServiceServer).Unfollow(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TweetService_Unfollow_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TweetServiceServer).Unfollow(ctx, req.(*FollowReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _TweetService_GetUserFollowers_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserId)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TweetServiceServer).GetUserFollowers(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TweetService_GetUserFollowers_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TweetServiceServer).GetUserFollowers(ctx, req.(*UserId))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _TweetService_GetUserFollows_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserId)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TweetServiceServer).GetUserFollows(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TweetService_GetUserFollows_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TweetServiceServer).GetUserFollows(ctx, req.(*UserId))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _TweetService_MostPopularUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Void)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TweetServiceServer).MostPopularUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TweetService_MostPopularUser_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TweetServiceServer).MostPopularUser(ctx, req.(*Void))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -819,6 +1025,30 @@ var TweetService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _TweetService_GetNewTweets_Handler,
 		},
 		{
+			MethodName: "ReTweet",
+			Handler:    _TweetService_ReTweet_Handler,
+		},
+		{
+			MethodName: "Follow",
+			Handler:    _TweetService_Follow_Handler,
+		},
+		{
+			MethodName: "Unfollow",
+			Handler:    _TweetService_Unfollow_Handler,
+		},
+		{
+			MethodName: "GetUserFollowers",
+			Handler:    _TweetService_GetUserFollowers_Handler,
+		},
+		{
+			MethodName: "GetUserFollows",
+			Handler:    _TweetService_GetUserFollows_Handler,
+		},
+		{
+			MethodName: "MostPopularUser",
+			Handler:    _TweetService_MostPopularUser_Handler,
+		},
+		{
 			MethodName: "AddLike",
 			Handler:    _TweetService_AddLike_Handler,
 		},
@@ -872,5 +1102,5 @@ var TweetService_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "protocol-buffers/tweet/tweet.proto",
+	Metadata: "tweet/tweet.proto",
 }
