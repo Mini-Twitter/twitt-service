@@ -76,3 +76,11 @@ func (s *TweetService) GetNewTweets(ctx context.Context, in *pb.UserId) (*pb.Twe
 	}
 	return res, nil
 }
+func (s *TweetService) ReTweet(ctx context.Context, in *pb.ReTweetReq) (*pb.Message, error) {
+	res, err := s.tweet.AddReTweet(in)
+	if err != nil {
+		s.logger.Error("failed to get tweets", err)
+		return nil, err
+	}
+	return res, nil
+}

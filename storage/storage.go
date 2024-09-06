@@ -13,6 +13,7 @@ type TweetStorage interface {
 	GetAllTweets(in *pb.TweetFilter) (*pb.Tweets, error)
 	RecommendTweets(in *pb.UserId) (*pb.Tweets, error)
 	GetNewTweets(in *pb.UserId) (*pb.Tweets, error)
+	AddReTweet(in *pb.ReTweetReq) (*pb.Message, error)
 }
 
 type LikesStorage interface {

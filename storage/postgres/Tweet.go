@@ -174,3 +174,13 @@ func (t *TweetRepo) GetNewTweets(in *pb.UserId) (*pb.Tweets, error) {
 
 	return &tweets, nil
 }
+func (t *TweetRepo) AddReTweet(in *pb.ReTweetReq) (*pb.Message, error) {
+	query := `UPDATE tweets SET tweet_id = $1, is_retweeted=true WHERE id = $2`
+
+	err := t.db.QueryRowContext(context.Background(), query, in.RetweetId, in.TweetId)
+	if err != nil {
+		return nil, err.Err()
+	}
+
+	return &pb.Message{Message: "ReTweeted successfully"}, nil
+}

@@ -5,6 +5,8 @@ create table tweets (
     title varchar,
     content text,
     image_url varchar default 'no images',
+    tweet_id uuid references tweets(id),
+    is_retweeted bool default 'false',
     created_at timestamp with time zone default now(),
     updated_at timestamp with time zone default now(),
     deleted_at bigint
