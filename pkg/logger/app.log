@@ -108,3 +108,10 @@
 {"time":"2024-09-06T17:33:58.686542124+05:00","level":"INFO","msg":"Context done, stopping consumer","consumer":"UpdateTweet"}
 {"time":"2024-09-06T17:33:58.686707197+05:00","level":"INFO","msg":"Context done, stopping consumer","consumer":"UpdateComment"}
 {"time":"2024-09-06T17:33:58.686764793+05:00","level":"INFO","msg":"All consumers have stopped"}
+{"time":"2024-09-07T19:56:57.895281006+05:00","level":"INFO","msg":"Shutting down, waiting for consumers to finish"}
+{"time":"2024-09-07T19:56:57.897163862+05:00","level":"INFO","msg":"Context done, stopping consumer","consumer":"UpdateComment"}
+{"time":"2024-09-07T19:56:57.897176206+05:00","level":"INFO","msg":"Context done, stopping consumer","consumer":"AddLike"}
+{"time":"2024-09-07T19:56:57.897201539+05:00","level":"INFO","msg":"Context done, stopping consumer","consumer":"PostTweet"}
+{"time":"2024-09-07T19:56:57.897213394+05:00","level":"INFO","msg":"Context done, stopping consumer","consumer":"PostComment"}
+{"time":"2024-09-07T19:56:57.897238545+05:00","level":"INFO","msg":"Context done, stopping consumer","consumer":"UpdateTweet"}
+{"time":"2024-09-07T19:56:57.897281544+05:00","level":"INFO","msg":"All consumers have stopped"}

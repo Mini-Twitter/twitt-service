@@ -20,7 +20,7 @@ type LikesStorage interface {
 	DeleteLIke(in *pb.LikeReq) (*pb.DLikeRes, error)
 	GetUserLikes(in *pb.UserId) (*pb.TweetTitles, error)
 	GetCountTweetLikes(in *pb.TweetId) (*pb.Count, error)
-	MostLikedTweets(in *pb.Void) (*pb.Tweet, error)
+	MostLikedTweets(in *pb.Void) (*pb.TweetResponse, error)
 }
 
 type CommentsStorage interface {

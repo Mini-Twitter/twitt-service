@@ -41,7 +41,7 @@ func (s *TweetService) GetCountTweetLikes(ctx context.Context, in *pb.TweetId) (
 	return res, nil
 }
 
-func (s *TweetService) MostLikedTweets(ctx context.Context, in *pb.Void) (*pb.Tweet, error) {
+func (s *TweetService) MostLikedTweets(ctx context.Context, in *pb.Void) (*pb.TweetResponse, error) {
 	res, err := s.like.MostLikedTweets(in)
 	if err != nil {
 		s.logger.Error("failed to get liked tweets", err)
