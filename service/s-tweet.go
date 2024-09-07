@@ -2,6 +2,7 @@ package service
 
 import (
 	"context"
+	"log"
 	pb "twitt-service/genproto/tweet"
 )
 
@@ -76,11 +77,12 @@ func (s *TweetService) GetNewTweets(ctx context.Context, in *pb.UserId) (*pb.Twe
 	}
 	return res, nil
 }
-func (s *TweetService) ReTweet(ctx context.Context, in *pb.ReTweetReq) (*pb.Message, error) {
+func (s *TweetService) ReTweet(ctx context.Context, in *pb.ReTweetReq) (*pb.TweetResponse, error) {
 	res, err := s.tweet.AddReTweet(in)
 	if err != nil {
 		s.logger.Error("failed to get tweets", err)
 		return nil, err
 	}
+	log.Printf("%+v", res)
 	return res, nil
 }

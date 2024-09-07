@@ -61,7 +61,7 @@ type TweetServiceClient interface {
 	GetAllTweets(ctx context.Context, in *TweetFilter, opts ...grpc.CallOption) (*Tweets, error)
 	RecommendTweets(ctx context.Context, in *UserId, opts ...grpc.CallOption) (*Tweets, error)
 	GetNewTweets(ctx context.Context, in *UserId, opts ...grpc.CallOption) (*Tweets, error)
-	ReTweet(ctx context.Context, in *ReTweetReq, opts ...grpc.CallOption) (*Message, error)
+	ReTweet(ctx context.Context, in *ReTweetReq, opts ...grpc.CallOption) (*TweetResponse, error)
 	// Subscribe
 	Follow(ctx context.Context, in *FollowReq, opts ...grpc.CallOption) (*FollowRes, error)
 	Unfollow(ctx context.Context, in *FollowReq, opts ...grpc.CallOption) (*DFollowRes, error)
@@ -173,9 +173,9 @@ func (c *tweetServiceClient) GetNewTweets(ctx context.Context, in *UserId, opts 
 	return out, nil
 }
 
-func (c *tweetServiceClient) ReTweet(ctx context.Context, in *ReTweetReq, opts ...grpc.CallOption) (*Message, error) {
+func (c *tweetServiceClient) ReTweet(ctx context.Context, in *ReTweetReq, opts ...grpc.CallOption) (*TweetResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(Message)
+	out := new(TweetResponse)
 	err := c.cc.Invoke(ctx, TweetService_ReTweet_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -376,7 +376,7 @@ type TweetServiceServer interface {
 	GetAllTweets(context.Context, *TweetFilter) (*Tweets, error)
 	RecommendTweets(context.Context, *UserId) (*Tweets, error)
 	GetNewTweets(context.Context, *UserId) (*Tweets, error)
-	ReTweet(context.Context, *ReTweetReq) (*Message, error)
+	ReTweet(context.Context, *ReTweetReq) (*TweetResponse, error)
 	// Subscribe
 	Follow(context.Context, *FollowReq) (*FollowRes, error)
 	Unfollow(context.Context, *FollowReq) (*DFollowRes, error)
@@ -429,7 +429,7 @@ func (UnimplementedTweetServiceServer) RecommendTweets(context.Context, *UserId)
 func (UnimplementedTweetServiceServer) GetNewTweets(context.Context, *UserId) (*Tweets, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetNewTweets not implemented")
 }
-func (UnimplementedTweetServiceServer) ReTweet(context.Context, *ReTweetReq) (*Message, error) {
+func (UnimplementedTweetServiceServer) ReTweet(context.Context, *ReTweetReq) (*TweetResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ReTweet not implemented")
 }
 func (UnimplementedTweetServiceServer) Follow(context.Context, *FollowReq) (*FollowRes, error) {

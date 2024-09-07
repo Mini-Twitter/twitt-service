@@ -115,3 +115,32 @@
 {"time":"2024-09-07T19:56:57.897213394+05:00","level":"INFO","msg":"Context done, stopping consumer","consumer":"PostComment"}
 {"time":"2024-09-07T19:56:57.897238545+05:00","level":"INFO","msg":"Context done, stopping consumer","consumer":"UpdateTweet"}
 {"time":"2024-09-07T19:56:57.897281544+05:00","level":"INFO","msg":"All consumers have stopped"}
+{"time":"2024-09-07T21:18:37.67990098+05:00","level":"INFO","msg":"Shutting down, waiting for consumers to finish"}
+{"time":"2024-09-07T21:18:37.681753339+05:00","level":"INFO","msg":"Context done, stopping consumer","consumer":"PostComment"}
+{"time":"2024-09-07T21:18:37.681753195+05:00","level":"INFO","msg":"Context done, stopping consumer","consumer":"UpdateTweet"}
+{"time":"2024-09-07T21:18:37.68180997+05:00","level":"INFO","msg":"Context done, stopping consumer","consumer":"UpdateComment"}
+{"time":"2024-09-07T21:18:37.681840048+05:00","level":"INFO","msg":"Context done, stopping consumer","consumer":"AddLike"}
+{"time":"2024-09-07T21:18:37.681996727+05:00","level":"INFO","msg":"Context done, stopping consumer","consumer":"PostTweet"}
+{"time":"2024-09-07T21:18:37.682151538+05:00","level":"INFO","msg":"All consumers have stopped"}
+{"time":"2024-09-07T21:34:57.075146581+05:00","level":"INFO","msg":"Shutting down, waiting for consumers to finish"}
+{"time":"2024-09-07T21:34:57.110734182+05:00","level":"INFO","msg":"Context done, stopping consumer","consumer":"AddLike"}
+{"time":"2024-09-07T21:34:57.110791381+05:00","level":"INFO","msg":"Context done, stopping consumer","consumer":"PostTweet"}
+{"time":"2024-09-07T21:34:57.110922748+05:00","level":"INFO","msg":"Context done, stopping consumer","consumer":"PostComment"}
+{"time":"2024-09-07T21:34:57.110913337+05:00","level":"INFO","msg":"Context done, stopping consumer","consumer":"UpdateComment"}
+{"time":"2024-09-07T21:34:57.111522735+05:00","level":"INFO","msg":"Context done, stopping consumer","consumer":"UpdateTweet"}
+{"time":"2024-09-07T21:34:57.111692925+05:00","level":"INFO","msg":"All consumers have stopped"}
+{"time":"2024-09-07T21:36:03.241902031+05:00","level":"INFO","msg":"Shutting down, waiting for consumers to finish"}
+{"time":"2024-09-07T21:36:03.242100666+05:00","level":"INFO","msg":"Context done, stopping consumer","consumer":"PostComment"}
+{"time":"2024-09-07T21:36:03.242126614+05:00","level":"INFO","msg":"Context done, stopping consumer","consumer":"UpdateTweet"}
+{"time":"2024-09-07T21:36:03.242178949+05:00","level":"INFO","msg":"Context done, stopping consumer","consumer":"PostTweet"}
+{"time":"2024-09-07T21:36:03.242136573+05:00","level":"INFO","msg":"Context done, stopping consumer","consumer":"AddLike"}
+{"time":"2024-09-07T21:36:03.242315909+05:00","level":"INFO","msg":"Context done, stopping consumer","consumer":"UpdateComment"}
+{"time":"2024-09-07T21:36:03.242384942+05:00","level":"INFO","msg":"All consumers have stopped"}
+{"time":"2024-09-07T21:40:15.599980804+05:00","level":"ERROR","msg":"failed to get tweets","!BADKEY":"pq: invalid input syntax for type uuid: \"string\""}
+{"time":"2024-09-07T21:42:52.000700823+05:00","level":"INFO","msg":"Shutting down, waiting for consumers to finish"}
+{"time":"2024-09-07T21:42:52.000864325+05:00","level":"INFO","msg":"Context done, stopping consumer","consumer":"AddLike"}
+{"time":"2024-09-07T21:42:52.000914317+05:00","level":"INFO","msg":"Context done, stopping consumer","consumer":"PostTweet"}
+{"time":"2024-09-07T21:42:52.000935132+05:00","level":"INFO","msg":"Context done, stopping consumer","consumer":"UpdateComment"}
+{"time":"2024-09-07T21:42:52.000933455+05:00","level":"INFO","msg":"Context done, stopping consumer","consumer":"PostComment"}
+{"time":"2024-09-07T21:42:52.000895156+05:00","level":"INFO","msg":"Context done, stopping consumer","consumer":"UpdateTweet"}
+{"time":"2024-09-07T21:42:52.001084965+05:00","level":"INFO","msg":"All consumers have stopped"}

@@ -174,13 +174,29 @@ func (t *TweetRepo) GetNewTweets(in *pb.UserId) (*pb.Tweets, error) {
 
 	return &tweets, nil
 }
-func (t *TweetRepo) AddReTweet(in *pb.ReTweetReq) (*pb.Message, error) {
-	query := `UPDATE tweets SET tweet_id = $1, is_retweeted=true WHERE id = $2`
+func (t *TweetRepo) AddReTweet(in *pb.ReTweetReq) (*pb.TweetResponse, error) {
+	var res pb.TweetResponse
 
-	err := t.db.QueryRowContext(context.Background(), query, in.RetweetId, in.TweetId)
+	query := `UPDATE tweets SET is_retweeted=true WHERE id = $1`
+
+	_, err := t.db.Exec(query, in.TweetId)
 	if err != nil {
-		return nil, err.Err()
+		return nil, err
 	}
 
-	return &pb.Message{Message: "ReTweeted successfully"}, nil
+	query = `insert into tweets(user_id, hashtag, title, content, tweet_id)
+				values ($1, $2, $3, $4, $5) returning id, created_at, updated_at`
+
+	err = t.db.QueryRow(query, in.UserId, in.Hashtag, in.Title, in.Content, in.TweetId).
+		Scan(&res.Id, &res.CreatedAt, &res.UpdatedAt)
+	if err != nil {
+		return nil, err
+	}
+
+	res.UserId = in.UserId
+	res.Hashtag = in.Hashtag
+	res.Title = in.Title
+	res.Content = in.Content
+
+	return &res, nil
 }
