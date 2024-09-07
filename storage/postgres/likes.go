@@ -83,7 +83,7 @@ func (l *LikeRepo) GetCountTweetLikes(in *pb.TweetId) (*pb.Count, error) {
 }
 
 func (l *LikeRepo) MostLikedTweets(in *pb.Void) (*pb.Tweet, error) {
-	query := `SELECT t.id, t.user_id, t.title, t.content, t.image_url, t.created_at, COUNT(l.tweet_id) as like_count 
+	query := `SELECT t.id, t.user_id, t.title, t.content, t.image_url, COUNT(l.user_id) AS like_count
 	          FROM tweets t 
 	          JOIN likes l ON t.id = l.tweet_id 
 	          GROUP BY t.id 
@@ -92,7 +92,7 @@ func (l *LikeRepo) MostLikedTweets(in *pb.Void) (*pb.Tweet, error) {
 
 	var tweet pb.Tweet
 	err := l.db.QueryRowContext(context.Background(), query).Scan(
-		&tweet.Id, &tweet.UserId, &tweet.Title, &tweet.Content, &tweet.ImageUrl, &tweet.CreatedAt, &tweet.LikeCount)
+		&tweet.Id, &tweet.UserId, &tweet.Title, &tweet.Content, &tweet.ImageUrl)
 
 	if err != nil {
 		return nil, err
