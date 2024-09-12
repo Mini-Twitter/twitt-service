@@ -67,7 +67,7 @@ func main() {
 }
 
 func initRabbitMQ(logger *slog.Logger) (*amqp.Connection, *amqp.Channel, error) {
-	conn, err := amqp.Dial("amqp://guest:guest@localhost:5672/")
+	conn, err := amqp.Dial("amqp://guest:guest@rabbit:5672/")
 	if err != nil {
 		logger.Error("Failed to connect to RabbitMQ", "error", err)
 		return nil, nil, err

@@ -1,6 +1,17 @@
 version: '3.9'
 
 services:
+  migrate:
+    image: "migrate/migrate"
+    networks:
+      - tweetNet
+    volumes:
+      - ./migrations:/migrations
+    command: [ "-path", "/migrations", "-database", "postgres://postgres:123321@postgres2:5432/tweeter?sslmode=disable", "up" ]
+    depends_on:
+      postgres2:
+        condition: service_healthy
+
   postgres2:
     image: postgres:16.3
     container_name: postgres2
@@ -33,6 +44,7 @@ services:
 
 volumes:
   postgres_data:
+  migrations:
 
 networks:
   tweetNet:
